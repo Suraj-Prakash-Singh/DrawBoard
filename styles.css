@@ -1,0 +1,155 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.options-cont{
+    height: 5rem;
+    width: 5rem;
+    background-color: lightgreen;
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    font-size: 3rem;
+}
+.tools-cont{
+    display: none;
+    height: 5rem;
+    background-color: lightgreen;
+    width: 60vw;
+    justify-content: space-around;
+    position: absolute;
+    top: 2rem;
+    left: 20rem;
+    padding: 3px;
+    border-radius: 1rem;
+}
+
+/* tools animation */
+.scale-tools{
+    animation-name: scale-tools;
+    animation-duration: 0.5s;
+}
+@keyframes scale-tools {
+    0%{
+        transform: scale(0.1);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+.tools-cont > *{
+    display: block;
+    width: 4rem;
+}
+
+.pencil-tool-cont{
+    height: 5rem;
+    width: 8rem;
+    background-color: lightgreen;
+    position: absolute;
+    left: 20rem;
+    top: 7rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    display: none;
+}
+
+.pencil-width-cont{
+    background-color: orange;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pencil-width-cont input{
+    width: 80%;
+}
+.pencil-color-cont{
+    background-color: yellow;
+    height: calc(100% - 2rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    /* width: 80%; */
+}
+.pencil-color{
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+}
+.red{
+    background-color: red;
+}
+.black{
+    background-color: black;
+}
+.blue{
+    background-color: blue;
+}
+
+.eraser-tool-cont{
+    height: 2rem;
+    width: 8rem;
+    background-color: orange;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 7rem;
+    left: 28rem;
+    border-radius: 1rem;
+}
+.eraser-tool-cont input{
+    width: 80%;
+}
+
+
+.sticky-cont{
+    height: 15rem;
+    width: 15rem;
+    background-color: aliceblue;
+    position: absolute;
+    top: 20rem;
+    left: 10rem;
+    display: none;
+}
+.header-cont{
+    height: 2rem;
+    background-color: orange;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.header-cont > * {
+    height: 1.3em;
+    width: 1.3rem;
+    margin-right: 0.5rem;
+}
+.minimize{
+    background-color: #DAF7A6;
+    border-radius: 50%;
+}
+.remove{
+    background-color: #FF5733;
+    border-radius: 50%;
+}
+.note-cont{
+    height: calc(100% - 2rem);
+}
+textarea{
+    width: 100%;
+    height: 100%;
+    outline: none;
+    resize: none;
+    /* border: 0.1px solid black */
+}
