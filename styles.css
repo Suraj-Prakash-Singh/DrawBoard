@@ -21,7 +21,8 @@ body{
     font-size: 3rem;
 }
 .tools-cont{
-    display: none;
+    /* change here */
+    display: flex; 
     height: 5rem;
     background-color: lightgreen;
     width: 60vw;
@@ -117,11 +118,10 @@ body{
 .sticky-cont{
     height: 15rem;
     width: 15rem;
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
     position: absolute;
     top: 20rem;
     left: 10rem;
-    display: none;
 }
 .header-cont{
     height: 2rem;
@@ -140,7 +140,7 @@ body{
     border-radius: 50%;
 }
 .remove{
-    background-color: #FF5733;
+    background-color: #C70039;
     border-radius: 50%;
 }
 .note-cont{
@@ -152,4 +152,8 @@ textarea{
     outline: none;
     resize: none;
     /* border: 0.1px solid black */
+}
+img{
+    height: 100%;
+    width: 100%;
 }

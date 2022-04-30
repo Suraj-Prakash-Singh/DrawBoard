@@ -10,10 +10,9 @@ let eraserToolCont = document.querySelector(".eraser-tool-cont");
 let pencilFlag = false;
 let eraserFlag = false;
 
-let stickyCont = document.querySelector(".sticky-cont");
 let sticky = document.querySelector(".sticky");
-let stickyFlag = false;
-let stickyCloseBtn = document.querySelector(".remove");
+
+let upload = document.querySelector(".upload");
 
 // true -> tools show, false -> hide tools
 optionsCont.addEventListener("click", (e) => {
@@ -31,7 +30,7 @@ function openTools() {
     toolsCont.style.display = "none";
 
     pencilToolCont.style.display = "none";
-    eraserToolCont.style.display ="none";
+    eraserToolCont.style.display = "none";
 }
 function closeTools() {
     let iconElem = optionsCont.children[0];
@@ -40,40 +39,130 @@ function closeTools() {
     toolsCont.style.display = "flex";
 }
 
-pencil.addEventListener("click",(e)=>{
+pencil.addEventListener("click", (e) => {
     //true -> show pencil tool, false -> hide pencil
 
     pencilFlag = !pencilFlag;
 
-    if(pencilFlag){
+    if (pencilFlag) {
         pencilToolCont.style.display = "block";
     }
-    else{
+    else {
         pencilToolCont.style.display = "none";
     }
 })
 
 
-eraser.addEventListener("click",(e)=>{
+eraser.addEventListener("click", (e) => {
     //true -> show pencil tool, false -> hide pencil
 
     eraserFlag = !eraserFlag;
 
-    if(eraserFlag){
+    if (eraserFlag) {
         eraserToolCont.style.display = "flex";
     }
-    else{
+    else {
         eraserToolCont.style.display = "none";
     }
 })
 
-sticky.addEventListener("click",(e)=>{
-    stickyFlag = !stickyFlag;
+upload.addEventListener("click",(e)=>{
+    // Open File Explorer
+    let input = document.createElement("input");
+    input.setAttribute("type","file");
+    input.click();
 
-    if(stickyFlag) stickyCont.style.display = "block";
-    else stickyCont.style.display = "none";
+    input.addEventListener("change",(e)=>{
+        let file = input.files[0];
+        let url = URL.createObjectURL(file);
+        
+        let stickyTemplateHTML = `
+        <div class="header-cont">
+            <div class="minimize"></div>
+            <div class="remove"></div>
+        </div>
+        <div class="note-cont">
+            <img src="${url}"/>
+        </div>
+        `;
+        createSticky(stickyTemplateHTML);
+    })
 })
 
-stickyCloseBtn.addEventListener("click",(e)=>{
-    stickyCont.style.display = "none";
+
+sticky.addEventListener("click", (e) => {
+    let stickyTemplateHTML =
+        `<div class="header-cont">
+            <div class="minimize"></div>
+            <div class="remove"></div>
+        </div>
+        <div class="note-cont">
+            <textarea spellcheck="false"></textarea>
+        </div>`;
+
+    createSticky(stickyTemplateHTML);
 })
+
+function createSticky(stickyTemplateHTML) {
+
+    let stickyCont = document.createElement("div");
+    stickyCont.setAttribute("class", "sticky-cont");
+    stickyCont.innerHTML = stickyTemplateHTML;
+    document.body.appendChild(stickyCont);
+
+    let minimize = stickyCont.querySelector(".minimize");
+    let remove = stickyCont.querySelector(".remove");
+    noteActions(minimize, remove, stickyCont);
+
+    stickyCont.onmousedown = function (event) {
+        dragAndDrop(stickyCont, event);
+    };
+
+    stickyCont.ondragstart = function () {
+        return false;
+    };
+}
+
+function noteActions(minimize,remove,stickyCont) {
+    remove.addEventListener("click",(e)=>{
+        stickyCont.remove();
+    })
+
+    minimize.addEventListener("click",(e)=>{
+        let noteCont = stickyCont.querySelector(".note-cont");
+        let display = getComputedStyle(noteCont).getPropertyValue("display");
+
+        if(display === "none") noteCont.style.display = "block";
+        else noteCont.style.display = "none";
+    })
+}
+
+function dragAndDrop(element, event) {
+    let shiftX = event.clientX - element.getBoundingClientRect().left;
+    let shiftY = event.clientY - element.getBoundingClientRect().top;
+
+    element.style.position = 'absolute';
+    element.style.zIndex = 1000;
+
+    moveAt(event.pageX, event.pageY);
+
+    // moves the ball at (pageX, pageY) coordinates
+    // taking initial shifts into account
+    function moveAt(pageX, pageY) {
+        element.style.left = pageX - shiftX + 'px';
+        element.style.top = pageY - shiftY + 'px';
+    }
+
+    function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+    }
+
+    // move the ball on mousemove
+    document.addEventListener('mousemove', onMouseMove);
+
+    // drop the ball, remove unneeded handlers
+    element.onmouseup = function () {
+        document.removeEventListener('mousemove', onMouseMove);
+        element.onmouseup = null;
+    };
+}
